@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const AllProjectsContainer=styled.div`
 
-flex:1;
+flex:0.6;
 background-color:#fff;
 box-shadow:3px 1px 10px #b3afaf6b;
 // z-index:100;
@@ -10,8 +10,25 @@ border-radius:50px;
 
 box-sizing:border-box;
 
-// height:500px;
+height:90vh;
+overflow:auto;
+margin:0px 20px;
 padding:40px 30px;
+&::-webkit-scrollbar {
+    width: 4px;
+               
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #ccc;        /* color of the tracking area */
+    
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: orange;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 3px solid orange;  /* creates padding around scroll thumb */
+  }
 
 
 `

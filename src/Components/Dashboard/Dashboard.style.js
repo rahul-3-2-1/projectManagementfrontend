@@ -4,5 +4,6 @@ export const DashboardWrapper=styled.div`
 
 .content{
     display:flex;
+    overflow:hidden;
 }
 `

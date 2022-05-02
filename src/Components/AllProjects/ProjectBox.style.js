@@ -8,6 +8,12 @@ position:relative;
 border-radius:25px;
 padding:15px 10px;
 margin:10px 20px;
+cursor:pointer;
+transition:0.3s;
+&:hover{
+
+transform:scale(1.08);
+}
 
 
 
