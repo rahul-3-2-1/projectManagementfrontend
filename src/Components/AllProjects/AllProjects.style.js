@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const AllProjectsContainer=styled.div`
 
-flex:0.6;
+flex:0.55;
 background-color:#fff;
 box-shadow:3px 1px 10px #b3afaf6b;
 // z-index:100;
-border-radius:50px;
+border-radius:20px;
 
 box-sizing:border-box;
 
@@ -47,8 +47,7 @@ flex-direction:column;
     background-color:#ccc;
     border-radius:10px;
     overflow:hidden;
-
-}
+    
 
 
 `:``}
@@ -88,6 +87,9 @@ margin:16px 0px;
         letter-spacing:0.03rem;
         font-weight:500;
         font-size:1.1rem;
+    }
+    h3{
+        font-size:1.2rem;
     }
 }
 

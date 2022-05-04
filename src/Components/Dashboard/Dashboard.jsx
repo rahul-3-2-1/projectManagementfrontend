@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import {DashboardWrapper} from './Dashboard.style';
 import AllProjects from '../AllProjects/AllProjects';
 import Request from '../Request/Request';
+import OverViewComponent from '../Overview/OverViewComponent';
 
 
 function Dashboard() {
@@ -10,8 +11,9 @@ function Dashboard() {
       <DashboardWrapper>
     <Header/>
     <div className='content'>
+      <OverViewComponent/>
     <AllProjects/>
-    <Request/>
+    {/* <Request/> */}
 
     </div>
     </DashboardWrapper>
