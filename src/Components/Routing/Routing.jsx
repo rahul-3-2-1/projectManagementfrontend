@@ -10,8 +10,7 @@ import { useAuth } from '../../Auth/Auth';
 function Routing() {
   const {logedIn}=useAuth
   return (
-    <>
-    {logedIn &&<Routes>
+    <Routes>
     
         <Route path='/' element={<Dashboard/>}/>
         <Route path='/project/:id' element={<SingleProject/>}/>
@@ -20,8 +19,6 @@ function Routing() {
         <Route path='/setting' element={<Setting/>}/>
         <Route path='/login' element={<Login/>}/>
     </Routes>
-      }
-      </>
   )
 }
 
