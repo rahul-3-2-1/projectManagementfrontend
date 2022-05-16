@@ -9,7 +9,7 @@ margin:10px 0px;
 
 export const TableHeader=styled.div`
 
-${(props)=>props.lg?`flex:1.5`:props.sm?`flex:0.5`:'flex:1'};
+${(props)=>props.lg?`width:30%`:props.sm?`width:10%`:'width:20%'};
 font-size:1.1rem;
 font-weight:500;
 // text-align:center;
@@ -25,7 +25,7 @@ padding:14px 0px;
 
 `
 export const TableData=styled.div`
-${(props)=>props.lg?`flex:1.5`:props.sm?`flex:0.5`:'flex:1'};
+${(props)=>props.lg?`width:30%`:props.sm?`width:10%`:'width:20%'};
 // text-align:center;
 
 

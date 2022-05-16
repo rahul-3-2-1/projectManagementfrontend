@@ -1,8 +1,7 @@
 import React,{useEffect} from "react";
 import {
   ProjectBoxContainer,
-  ProjectDetails,
-  ProgressContainer,
+  
   Progress,
   Line,
 } from "./ProjectBox.style";

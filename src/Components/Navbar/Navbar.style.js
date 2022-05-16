@@ -10,6 +10,23 @@ padding:0px 13px;
 
 position:sticky;
 top:0;
+.active{
+    .wrapper{
+        transition:0.5s;
+    background-color:black;}
+    
+    .icon{
+        color:#fff;
+        transition:0.3s;
+    }
+
+    }
+
+}
+.link{
+    text-decoration:none;
+    color:black;
+}
 
 `
 export const IconContainer=styled.div`
