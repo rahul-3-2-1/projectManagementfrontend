@@ -17,6 +17,7 @@ align-items:center;
 export const ModalContainer=styled.div`
 
 min-width:${({width})=>width?width:""};
+min-height:${({minHeight})=>minHeight?minHeight:""};
 background-color:#fff;
 // z-index:300;
 padding:20px 20px;
@@ -25,6 +26,27 @@ box-shadow:1px 2px 10px #ebebeb;
 .fDiv{
     display:flex;
     justify-content:space-between;
+}
+.result{
+    max-height:300px;
+    overflow:auto;
+    &::-webkit-scrollbar {
+        width: 4px;
+                   
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: #ccc;        /* color of the tracking area */
+        
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background-color:#045680;    /* color of the scroll thumb */
+        border-radius: 20px;       /* roundness of the scroll thumb */
+        // border: 3px solid orange;  /* creates padding around scroll thumb */
+      }
+    
+    
 }
 
 

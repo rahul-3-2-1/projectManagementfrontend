@@ -4,6 +4,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import {Alert} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import {User} from '../Api/Api';
 
 
 
@@ -21,7 +23,7 @@ export function useAuth(){
 
 export const AuthProvider=({children})=>{
     const [logedIn,setLogedIn]=useState(false);
-    const [loading,setLoading]=useState(false);
+    const [loading,setLoading]=useState(true);
     const [open,setOpen]=useState(false);
     const [type,setType]=useState("");
     const [mssg,setMssg]=useState("");
@@ -46,10 +48,37 @@ export const AuthProvider=({children})=>{
         setOpen(false);
     }
     useEffect(()=>{
-        if(!logedIn)
-        {
-            navigation('/login')
+        const verify=async()=>{
+            
+            try{
+            const dt=await axios.get(User.verify,{
+            headers:{
+                token:`${localStorage?.getItem("token")}`
+            }
         }
+        )
+            console.log(dt);
+            if(dt.data.data==="true")
+            {
+                setLogedIn(true);
+            
+            }
+            else
+            {
+                setLogedIn(false);
+                navigation('/login')
+            }
+            }
+            catch(err)
+            {
+              
+                setLogedIn(false);
+                navigation('/login')
+            }
+            }
+
+        verify();
+        setLoading(false)
     },[])
 
 
@@ -66,7 +95,7 @@ export const AuthProvider=({children})=>{
     return(
         <AuthContext.Provider value={value}>
         {!loading&&children}
-        <Snackbar open={open} autoHideDuration={6000}  severity={type} onClose={handleClose}>
+        <Snackbar style={{zIndex:"100000"}} open={open} autoHideDuration={6000}  severity={type} onClose={handleClose}>
         <Alert action={action}  severity={type} sx={{width:"100%"}}>
             {mssg}
             </Alert>

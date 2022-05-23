@@ -5,14 +5,15 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import Avatar from "@mui/material/Avatar";
 import AddProject from '../AddProject/AddProject';
-function Header() {
+function Header(props) {
+  const {val,setVal}=props;
   const [modal,setModal]=useState(false);
   return (
     <HeaderContainer>
       <div className='ldiv'>
         <h2>DashBoard</h2>
         <div className='inputDiv'>
-        <InputSearch placeholder='Search...'/>
+        <InputSearch value={val} onChange={(e)=>setVal(e.target.value)} placeholder='Search...'/>
         <SearchOutlinedIcon className="icon"/>
         </div>
       </div>

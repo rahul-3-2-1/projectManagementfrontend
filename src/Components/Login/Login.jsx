@@ -40,7 +40,7 @@ function Login() {
         localStorage.setItem("expiresIn",dt.data.expiresIn);
         localStorage.setItem("user_id",dt.data.data.user_id);
         localStorage.setItem("isAdmin",dt.data.data.isAdmin);
-        localStorage.setItem("companyId",dt.data.companyId);
+        localStorage.setItem("companyId",dt.data.data.companyId);
         setLogedIn(true)
         setTimeout(()=>navigation('/'),5000);
     }

@@ -3,11 +3,11 @@ import { ModalWrapper,ModalContainer,FormContainer,InputContainer,Input,ButtonGr
 // import { Button } from '../History/History.style';
 
 export const InputComponent=(props)=>{
-    const {label,type,placeholder,width}=props;
+    const {label,type,placeholder,width,onChange,value,name}=props;
     return(
         <InputContainer width={width}>
         <label >{label}</label>
-        <Input type={type} placeholder={placeholder} />
+        <Input type={type} onChange={onChange} value={value} name={name} placeholder={placeholder} />
         </InputContainer>
     )
 }

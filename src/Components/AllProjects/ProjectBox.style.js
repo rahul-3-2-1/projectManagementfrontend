@@ -44,7 +44,7 @@ left:0;
 bottom:0;
 background-color:${({color})=>color};
 border-radius:10px;
-width:50%;
+width:${({per})=>per}%;
 
 `
 
