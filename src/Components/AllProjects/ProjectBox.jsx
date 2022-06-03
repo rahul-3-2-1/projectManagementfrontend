@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { ProjectBoxContainer, Progress, Line } from "./ProjectBox.style";
 import { Title } from "./AllProjects.style";
+import {useNavigate} from 'react-router-dom';
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import Avatar from "@mui/material/Avatar";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
@@ -16,6 +17,7 @@ const calcTime=(time)=>{
 }
 
 function ProjectBox(props) {
+  const navigate=useNavigate();
   const [color, setColor] = React.useState("");
 
   const {data}=props;
@@ -28,7 +30,7 @@ function ProjectBox(props) {
     getColorCode();
   }, []);
   return (
-    <ProjectBoxContainer>
+    <ProjectBoxContainer onClick={()=>{navigate(`/project/${data?._id}`)}} >
       <div style={{ backgroundColor: `${color}` }} className="backColor"></div>
       <div style={{ zIndex: "100" }}>
         <Title>

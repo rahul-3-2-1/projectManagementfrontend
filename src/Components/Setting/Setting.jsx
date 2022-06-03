@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Header from '../Header/Header';
 import { HistoryHeader,HistoryContainer,Button } from '../History/History.style';
 import { TableHeader,TableHeaderContainer,TableContent,TableData } from '../Members/Members.style';
@@ -7,6 +7,8 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon  from '@mui/icons-material/Delete';
 import AddUser from './AddUser';
 import UploadUser from './UploadUser';
+import axios from 'axios';
+import {User} from "../../Api/Api";
 
 
 const GetType=({type,setModal})=>{
@@ -20,6 +22,29 @@ const GetType=({type,setModal})=>{
 function Setting() {
     const [modal,setModal]=useState(false);
     const [type,setType]=useState("");
+    const [allUser,setAlluser]=useState([]);
+    const {filterUser,setFilterUser}=useState([]);
+    useEffect(()=>{
+        const getUser=async()=>{
+            try{
+            const dt=await axios.get(User.getAllUser(localStorage.getItem("companyId")),{
+                headers:{
+                    token:`${localStorage.getItem('token')}`
+                }
+            });
+            setAlluser(dt?.data?.data);
+            setFilterUser(dt?.dt?.data);
+        
+            }
+            catch(err)
+            {
+                console.log(err);
+            }
+
+
+        }
+        getUser();
+    },[])
   return (
     <>
     <Header/>
@@ -43,66 +68,24 @@ function Setting() {
 
     </TableHeaderContainer>
     <Line/>
-    <TableContent>
-        <TableData sm>1</TableData>
-        <TableData>Rahul</TableData>
-        <TableData>abc@gmail.com</TableData>
-        <TableData>May 5,2022</TableData>
-        <TableData>Developer</TableData>
+    {
+        allUser.map((item,idx)=>{
+            return(<>
+                <TableContent>
+        <TableData sm>{idx+1}</TableData>
+        <TableData>{item.name}</TableData>
+        <TableData>{item.email}</TableData>
+        <TableData>{item?.joinedAt}</TableData>
+        <TableData>{item?.role}</TableData>
         <TableData><Switch /></TableData>
         <TableData sm><DeleteIcon color='error' style={{cursor:"pointer"}}/></TableData>
     </TableContent>
     <Line/>
-    <TableContent>
-    <TableData sm>2</TableData>
-        <TableData>Rahul</TableData>
-        <TableData>abc@gmail.com</TableData>
-        <TableData>May 5,2022</TableData>
-        <TableData>Developer</TableData>
-        <TableData><Switch /></TableData>
-        
-        <TableData sm><DeleteIcon color='error' style={{cursor:"pointer"}}/></TableData>
-    </TableContent>
-    <Line/>
-    <TableContent>
-    <TableData sm>3</TableData>
-        <TableData>Rahul</TableData>
-        <TableData>abc@gmail.com</TableData>
-        <TableData>May 5,2022</TableData>
-        <TableData>Developer</TableData>
-        <TableData><Switch /></TableData>
-        <TableData sm><DeleteIcon color='error' style={{cursor:"pointer"}}/></TableData>
-    </TableContent>
-    <Line/>
-    <TableContent>
-    <TableData sm>4</TableData>
-        <TableData>Rahul</TableData>
-        <TableData>abc@gmail.com</TableData>
-        <TableData>May 5,2022</TableData>
-        <TableData>Developer</TableData>
-        <TableData><Switch /></TableData>
-        <TableData sm><DeleteIcon color='error' style={{cursor:"pointer"}}/></TableData>
-    </TableContent>
-    <Line/>
-    <TableContent>
-    <TableData sm>5</TableData>
-        <TableData>Rahul</TableData>
-        <TableData>abc@gmail.com</TableData>
-        <TableData>May 5,2022</TableData>
-        <TableData>Developer</TableData>
-        <TableData><Switch /></TableData>
-        <TableData sm><DeleteIcon color='error' style={{cursor:"pointer"}}/></TableData>
-    </TableContent>
-    <Line/>
-    <TableContent>
-    <TableData sm>6</TableData>
-        <TableData>Rahul</TableData>
-        <TableData>abc@gmail.com</TableData>
-        <TableData>May 5,2022</TableData>
-        <TableData>Developer</TableData>
-        <TableData><Switch /></TableData>
-        <TableData sm><DeleteIcon color='error' style={{cursor:"pointer"}} /></TableData>
-    </TableContent>
+    </>
+            )
+        })
+    }
+    
     {modal&&<GetType setModal={setModal} type={type}/>}
 
     </HistoryContainer>

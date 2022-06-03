@@ -13,7 +13,7 @@ function AllProjects({allProjects}) {
     </Title>
 
     <ProjectWrapper>
-      {allProjects&&allProjects.length&&allProjects.map((item)=><ProjectBox data={item}/>)}
+      {allProjects&&allProjects.length&&allProjects.map((item)=><ProjectBox  data={item}/>)}
       
     </ProjectWrapper>
     </AllProjectsContainer>
