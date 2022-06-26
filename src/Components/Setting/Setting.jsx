@@ -9,7 +9,7 @@ import AddUser from './AddUser';
 import UploadUser from './UploadUser';
 import axios from 'axios';
 import {User} from "../../Api/Api";
-
+import {useAuth} from '../../Auth/Auth';
 
 const GetType=({type,setModal})=>{
     return (
@@ -24,6 +24,7 @@ function Setting() {
     const [type,setType]=useState("");
     const [allUser,setAlluser]=useState([]);
     const {filterUser,setFilterUser}=useState([]);
+    const {DisplaySnackbar}=useAuth()
     useEffect(()=>{
         const getUser=async()=>{
             try{
@@ -45,6 +46,48 @@ function Setting() {
         }
         getUser();
     },[])
+
+    const handleAlter=async(id)=>{
+        try{
+            const dt=await axios.patch(User.alterAdmin(id),{},{
+                headers:{
+                    token:localStorage.getItem('token')
+                }
+            });
+            console.log(dt);
+            if(dt.data.status==="success")
+            {
+                DisplaySnackbar("Updated Successfully","success");
+            }
+        }
+        catch(err)
+        {
+            DisplaySnackbar(err?.response?.message,"error");
+        }
+
+
+    }
+    const handleDelete=async(id)=>{
+        try{
+            const dt=await axios.delete(User.deleteUser(id),{
+                headers:{
+                    token:localStorage.getItem('token')
+                }
+            });
+            console.log(dt);
+            if(dt.data.status==="success")
+            {
+                DisplaySnackbar("Deleted Successfully","success");
+            }
+        }
+        catch(err)
+        {
+            DisplaySnackbar(err?.response?.message,"error");
+        }
+
+
+    }
+    
   return (
     <>
     <Header/>
@@ -77,8 +120,8 @@ function Setting() {
         <TableData>{item.email}</TableData>
         <TableData>{item?.joinedAt}</TableData>
         <TableData>{item?.role}</TableData>
-        <TableData><Switch /></TableData>
-        <TableData sm><DeleteIcon color='error' style={{cursor:"pointer"}}/></TableData>
+        <TableData><Switch checked={item?.isAdmin} onClick={()=>handleAlter(item._id)} /></TableData>
+        <TableData sm><DeleteIcon onClick={()=>handleDelete(item._id)} color='error' style={{cursor:"pointer"}}/></TableData>
     </TableContent>
     <Line/>
     </>

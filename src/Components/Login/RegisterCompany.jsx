@@ -38,6 +38,7 @@ function RegisterCompany({setLogin}) {
         localStorage.setItem("expiresIn",dt.data.expiresIn);
         localStorage.setItem("user_id",dt.data.data.user_id);
         localStorage.setItem("isAdmin",true);
+        localStorage.setItem("name",dt.data.data.name)
         
         const dta=await axios.post(Company.createCompnay,{
             name:companyName,

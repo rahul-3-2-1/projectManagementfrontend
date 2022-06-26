@@ -11,7 +11,8 @@ border-radius:20px;
 box-sizing:border-box;
 
 height:90vh;
-overflow:auto;
+overflow-Y:auto;
+overflow-X:hidden;
 margin:0px 20px;
 padding:40px 30px;
 &::-webkit-scrollbar {

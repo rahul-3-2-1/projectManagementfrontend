@@ -11,6 +11,9 @@ background: rgba(0,0,0,0.5);
 display:flex;
 justify-content:center;
 align-items:center;
+${({request})=>request&&`
+    justify-content:flex-end;
+`}
 
 `
 
@@ -23,6 +26,16 @@ background-color:#fff;
 padding:20px 20px;
 border-radius:8px;
 box-shadow:1px 2px 10px #ebebeb;
+${({request})=>request&&`
+box-sizing:border-box;
+height:100vh;
+overflow:auto;
+border-radius:0px;
+min-width:450px;
+padding:20px 10px;
+
+
+`}
 .fDiv{
     display:flex;
     justify-content:space-between;

@@ -14,6 +14,11 @@ transition:0.3s;
 
 transform:scale(1.08);
 }
+.react-contextmenu-item{
+    display:flex !important;
+    justify-content:center !important;
+    margin:10px 0px !important;
+}
 
 
 

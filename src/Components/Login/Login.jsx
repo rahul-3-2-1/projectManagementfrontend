@@ -39,6 +39,7 @@ function Login() {
         localStorage.setItem("token",dt.data.token);
         localStorage.setItem("expiresIn",dt.data.expiresIn);
         localStorage.setItem("user_id",dt.data.data.user_id);
+        localStorage.setItem("name",dt.data.data.name)
         localStorage.setItem("isAdmin",dt.data.data.isAdmin);
         localStorage.setItem("companyId",dt.data.data.companyId);
         setLogedIn(true)

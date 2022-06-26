@@ -27,7 +27,7 @@ function Header(props) {
       <div className='profile'>
         <Avatar  style={{margin:"0px 8px",cursor:"pointer"}} className="avtr"/>
         <h4 className='nm'>
-          Abc
+          {localStorage.getItem("")}
         </h4>
       </div>
       </div>

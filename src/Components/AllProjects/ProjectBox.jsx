@@ -5,6 +5,10 @@ import {useNavigate} from 'react-router-dom';
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import Avatar from "@mui/material/Avatar";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddProject from "../AddProject/AddProject";
 
 const avatar = [{}, {}, {}];
 
@@ -19,6 +23,7 @@ const calcTime=(time)=>{
 function ProjectBox(props) {
   const navigate=useNavigate();
   const [color, setColor] = React.useState("");
+  const [modal,setModal]=React.useState(false);
 
   const {data}=props;
   console.log(data);
@@ -29,16 +34,26 @@ function ProjectBox(props) {
     }
     getColorCode();
   }, []);
+  const randomString1=`${btoa(Math.random().toString()).substring(0, 16)}`;
+  const handleEdit=()=>{
+    setModal(true);
+
+  }
   return (
+    <>
     <ProjectBoxContainer onClick={()=>{navigate(`/project/${data?._id}`)}} >
       <div style={{ backgroundColor: `${color}` }} className="backColor"></div>
       <div style={{ zIndex: "100" }}>
         <Title>
           <h4 style={{ color: "rgb(102 102 102)", zIndex: "2" }}>{new Date(data?.startDate).toUTCString().slice(4,16)}</h4>
           <h2 style={{ zIndex: "2" }}>
+          <ContextMenuTrigger id={randomString1}>
             <MoreVertOutlinedIcon />
+            </ContextMenuTrigger>
           </h2>
+
         </Title>
+        
         <Title
           style={{
             flexDirection: "column",
@@ -104,6 +119,26 @@ function ProjectBox(props) {
         </Title>
       </div>
     </ProjectBoxContainer>
+    <ContextMenu style={{
+   
+    zIndex: "1000"}} id={randomString1}>
+      <div   style={{display: "flex",cursor:"pointer",justifyContent: "center"}}>
+          <MenuItem >
+          {/* <div className="context"> */}
+          <EditIcon onClick={()=>handleEdit()} color="primary"/>
+          {/* </div> */}
+          </MenuItem>
+          </div>
+          <div style={{display: "flex",cursor:"pointer",justifyContent: "center"}}>
+          <MenuItem >
+            {/* <div className="context"> */}
+            <DeleteIcon color="error"/>
+            {/* </div> */}
+          </MenuItem>
+          </div>
+        </ContextMenu>
+        {modal&&<AddProject edit={true} data={data?._id} setModal={setModal}/>}
+    </>
   );
 }
 

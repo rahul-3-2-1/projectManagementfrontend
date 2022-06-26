@@ -1,25 +1,62 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import { SingleOkrContainer, SingleOKrHeader, SingleOkrContent, Heading,Text,Button,TabContainer,Line } from './SingleProject.style';
 import ProjectSvgComponent from '../../Svg/ProjectSvgComponent';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { Tab } from './SingleProject.style';
 import Members from '../Members/Members';
+import { useParams } from 'react-router-dom';
 import Stages from '../Stages/Stages';
+import axios from 'axios';
+import { Project } from '../../Api/Api';
 
 const tab=["Members","Stages","Activity"];
 const TabData=[Members,Stages];
-function SingleProject() {
+const getDate=(startDate,endDate)=>{
 
+    let sd=new Date(startDate).toUTCString().slice(4,16);
+    let ed=new Date(endDate).toUTCString().slice(4,16);
+
+    return `${sd} to ${ed}`;
+
+    
+
+}
+function SingleProject() {
+    const {id}=useParams();
+    const[data,setData]=useState([]);
+    const [loading,setLoading]=useState(true);
+    const [render,setRender]=useState(false);
+    
     const [active,setActive]=useState(0);
+    useEffect(()=>{
+        const getData=async()=>{
+            try{
+           const dt=await axios.get(Project.getSingleProject(id),{
+                headers:{
+                    token:`${localStorage.getItem("token")}`
+                }
+            })
+            
+            setData(dt?.data?.data);
+            setLoading(false);
+            }
+            catch(err)
+            {
+                console.log(err);
+            }
+        }
+        getData();
+    },[id,render])
   return (
     <SingleOkrContainer>
+        {!loading&&<>
 
     <SingleOKrHeader>
         <div className='firstDiv'>
             <div className="firstDivChild">
                 <div style={{ display: "flex", alignItems: "center" }}>
                     <ProjectSvgComponent />
-                    <h2 style={{ marginLeft: "7px" }}>Project Title</h2>
+                    <h2 style={{ marginLeft: "7px" }}>{data?.title}</h2>
                 </div>
                 
             </div>
@@ -27,7 +64,7 @@ function SingleProject() {
                 <Heading progress>
                     <Text style={{ color: "grey", marginBottom: "10px" }} bold> Progress</Text>
                     <div style={{ height: "150px", position: "relative", width: "150px" }}>
-                        <span style={{ position: "absolute", top: "50%", fontSize: "25px", color: `#000`, fontWeight: "600", left: "50%", transform: "translateX(-50%) translateY(-50%)" }}> 60%</span>
+                        <span style={{ position: "absolute", top: "50%", fontSize: "25px", color: `#000`, fontWeight: "600", left: "50%", transform: "translateX(-50%) translateY(-50%)" }}> {data?.progress}%</span>
                         <CircularProgressbar styles={buildStyles({
                             // Rotation of path and trail, in number of turns (0-1)
                             rotation: 0.50,
@@ -50,19 +87,19 @@ function SingleProject() {
                             trailColor: '#d6d6d6',
                             backgroundColor: '#3e98c7',
                         })}
-                            value={60} />
+                            value={data?.progress} />
                     </div >
                 </Heading>
               
                 <Heading>
                     <Text style={{ color: "grey" }} bold> Status</Text>
-                    <Button style={{ color: `red`,backgroundColor:"#fff", borderColor: `red`, borderRadius: "17px", marginTop: "10px", padding: "3px 10px" }}>In Progress</Button>
+                    <Button style={{ color: `red`,backgroundColor:"#fff", borderColor: `red`, borderRadius: "17px", marginTop: "10px", padding: "3px 10px" }}>{data?.status}</Button>
                 </Heading>
                 <Heading start >
                 <Text style={{ color: "grey",marginBottom: "10px" }} bold>Time Period</Text>
                     {/* <h2></h2> */}
                     <div style={{ display: "flex", }}>
-                          May 2022 to  May 2022
+                          {getDate(data?.startDate,data?.endDate)}
                         </div>
                 </Heading>
 
@@ -83,13 +120,13 @@ function SingleProject() {
         <div style={{ flex: "1" }}>
                 <Heading start width>
                     <h2>Category</h2>
-                    <div style={{ fontSize: "1.1rem" }}>web design</div>
+                    <div style={{ fontSize: "1.1rem" }}>{data?.category}</div>
                 </Heading>
         </div>
             <div style={{ flex: "1" }}>
                 <Heading start width>
                     <h2>Member's Count</h2>
-                    <div style={{ fontSize: "1.1rem" }}>10</div>
+                    <div style={{ fontSize: "1.1rem" }}>{data?.members?.length}</div>
                 </Heading>
             </div>
 
@@ -98,13 +135,13 @@ function SingleProject() {
             <div style={{ flex: "1" }}>
                 <Heading start width>
                     <h2>Total Stages</h2>
-                    <div style={{ fontSize: "1.1rem" }}>5</div>
+                    <div style={{ fontSize: "1.1rem" }}>{data?.stages?.length}</div>
                 </Heading>
             </div>
             <div style={{ flex: "1" }}>
                 <Heading start width>
                     <h2>Description</h2>
-                    <div style={{ fontSize: "1.1rem" }}>Project's Discription</div>
+                    <div style={{ fontSize: "1.1rem" }}>{data?.description}</div>
                 </Heading>
             </div>
           
@@ -116,19 +153,19 @@ function SingleProject() {
     
         <TabContainer>
             {tab.map((item,index)=>{
-                return <Tab onClick={()=>setActive(index)} active={index===active}>{item}</Tab>
+                return <Tab  onClick={()=>setActive(index)} active={index===active}>{item}</Tab>
             })}
         </TabContainer>
         <Line/>
         {
-            TabData.map((Data,index)=>index===active?<Data/>:"")
+            TabData.map((Data,index)=>index===active?<Data setRender={setRender} render={render} members={data?.members} stages={data?.stages} />:"")
         }
 
 
         
     </SingleOkrContent>
 
-    
+    </>}
     
 </SingleOkrContainer>
   )

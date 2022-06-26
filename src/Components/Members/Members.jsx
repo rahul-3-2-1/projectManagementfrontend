@@ -3,35 +3,40 @@ import React from 'react';
 import { TableHeaderContainer,TableHeader } from './Members.style';
 import { Line } from '../SingleProject/SingleProject.style';
 import { TableContent,TableData } from './Members.style';
+// import 
 
 const heading=["Name","Email","Joined At","",]
 const content=[{Name:"Rahul",Email:"Email","Joined At":"29 May 2022","":"Remove"}]
-function Members() {
+function Members(props) {
+  const {members}=props;
+  console.log(members);
+
   return (
     <div>
        <TableHeaderContainer>
            <TableHeader md>Name</TableHeader>
            <TableHeader md>Email</TableHeader>
-           <TableHeader md> Joined At</TableHeader>
-           <TableHeader sm></TableHeader>
+           {/* <TableHeader md> Joined At</TableHeader> */}
+           {/* <TableHeader sm></TableHeader> */}
           
        </TableHeaderContainer>
        <Line/>
-       <TableContent>
-           <TableData md>Rahul</TableData>
-           <TableData md>mouryarahul223@gmail.com</TableData>
-           <TableData md>May 5, 2022</TableData>
-           <TableData sm> Remove</TableData>
+       {props?.members?.map((item)=>{
+         return(
+           <div key={item._id}>
+          <TableContent>
+          <TableData md>{item?.name}</TableData>
+          <TableData md>{item?.email}</TableData>
+          {/* <TableData md>{}</TableData> */}
+          {/* <TableData sm> Remove</TableData> */}
 
-       </TableContent>
-       <Line/>
-       <TableContent>
-           <TableData md>Rahul</TableData>
-           <TableData md>mouryarahul223@gmail.com</TableData>
-           <TableData md>May 5, 2022</TableData>
-           <TableData sm> Remove</TableData>
-
-       </TableContent>
+      </TableContent>
+      <Line/>
+      </div>
+         )
+       })}
+       
+     
 
     </div>
   )
