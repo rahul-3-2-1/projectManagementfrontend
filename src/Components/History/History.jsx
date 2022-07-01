@@ -11,31 +11,60 @@ const getDay=(dt)=>{
     const tm=new Date().getTime()-new Date(dt).getTime();
    
 
-    let tmp= (tm/(24*60*60*1000))
+    let tmp= (tm/(24*60*60*1000));
     // console.log(tmp);
-    if(tmp<1);
+    if(tmp>1)
     {
-    tmp=tmp*24;
-        if(tmp<1)
-        return `Just Now`;
-        else
-        return `${Math.ceil(tmp)} hours ago`;
-
+        return `${Math.ceil(tmp)} days ago`;
     }
+    if(tmp<1);
+    tmp=tmp*24;
 
-    // https://meet.google.com/xia-rkds-hph
+    if(tmp<1)
+        return `Just Now`;
+    else
+    return `${Math.ceil(tmp)} hours ago`;
 
-    return `${Math.ceil(tmp)} days ago`;
+    
+
+   
+
+
 
 
 
 }
 
-function History() {
+export const HistoyDataRender=({project=false,projectId=""})=>{
     const [historyData,setHistoryData]=useState([]);
     useEffect(()=>{
         const getData=async()=>{
             try{
+
+                let dc=localStorage.getItem("isAdmin");
+                console.log(dc);
+                if(project)
+                {
+                    const dt=await axios.get(Request.requestByProjectId(projectId),{
+                        headers:{
+                            token:localStorage.getItem('token')
+                        }
+                    })
+                    console.log(dt);
+                    setHistoryData(dt?.data?.data.filter(item=>item.approve!=="NA"));
+                }
+                else if(dc==="false")
+                {
+                    const dt=await axios.get(Request.requestByUserId(localStorage.getItem("user_id")),{
+                        headers:{
+                            token:localStorage.getItem('token')
+                        }
+                    })
+                    console.log(dt);
+                    setHistoryData(dt?.data?.data.filter(item=>item.approve!=="NA"));
+                }
+                else
+                {
                 const dt=await axios.get(Request.getHistoryByCompanyId(localStorage.getItem("companyId")),{
                     headers:{
                         token:localStorage.getItem('token')
@@ -43,6 +72,7 @@ function History() {
                 })
                 console.log(dt);
                 setHistoryData(dt?.data?.data.filter(item=>item.approve!=="NA"));
+                }
             }
             catch(err)
             {
@@ -53,14 +83,11 @@ function History() {
         
         getData();
     },[])
-  return (
-   <>
-   <Header/>
-   <HistoryHeader>
-   <h2>Request History</h2>
-   </HistoryHeader>
-   <HistoryContainer>
-       {historyData.length&&historyData.map((item)=>{
+
+    return(
+        
+        <HistoryContainer>
+       {historyData.length?historyData.map((item)=>{
            return(
                <div key={item._id}>
                     <HistoryItem>
@@ -91,10 +118,26 @@ function History() {
        <Line/>
                </div>
            )
-       })}
+       }):""}
       
    
    </HistoryContainer>
+
+    )
+
+}
+
+
+function History() {
+   
+  return (
+   <>
+   <Header search={false}/>
+   <HistoryHeader>
+   <h2>Request History</h2>
+   </HistoryHeader>
+   <HistoyDataRender/>
+   
    </>
   )
 }

@@ -22,6 +22,9 @@ export const InputComponent = (props) => {
       <Input
         type={type}
         onChange={onChange}
+        autoComplete="new-password" 
+        // autoFocus="off"
+        // autoCorrect="off"
         value={value}
         name={name}
         placeholder={placeholder}
@@ -31,7 +34,7 @@ export const InputComponent = (props) => {
 };
 
 function AddUser(props) {
-  const { setModal } = props;
+  const { setModal,render,setRender } = props;
   const { DisplaySnackbar } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
@@ -59,6 +62,9 @@ function AddUser(props) {
       );
       if (dt.data.status === "success") {
         DisplaySnackbar("User Added", "success");
+        setRender(!render);
+        setModal(false);
+        
       }
     } catch (err) {
       DisplaySnackbar(err?.response?.data?.message, "error");

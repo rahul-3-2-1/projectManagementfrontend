@@ -11,9 +11,9 @@ import axios from 'axios';
 import {User} from "../../Api/Api";
 import {useAuth} from '../../Auth/Auth';
 
-const GetType=({type,setModal})=>{
+const GetType=({type,setModal,render,setRender})=>{
     return (
-        type==="add"?<AddUser setModal={setModal}/>:<UploadUser setModal={setModal}/>
+        type==="add"?<AddUser render={render} setRender={setRender} setModal={setModal}/>:<UploadUser render={render} setRender={setRender} setModal={setModal}/>
     )
 
 }
@@ -23,7 +23,9 @@ function Setting() {
     const [modal,setModal]=useState(false);
     const [type,setType]=useState("");
     const [allUser,setAlluser]=useState([]);
-    const {filterUser,setFilterUser}=useState([]);
+    const [filterUser,setFilterUser]=useState([]);
+    const [render,setRender]=useState(false);
+    const [val,setVal]=useState("");
     const {DisplaySnackbar}=useAuth()
     useEffect(()=>{
         const getUser=async()=>{
@@ -34,7 +36,7 @@ function Setting() {
                 }
             });
             setAlluser(dt?.data?.data);
-            setFilterUser(dt?.dt?.data);
+            setFilterUser(dt?.data?.data);
         
             }
             catch(err)
@@ -45,7 +47,7 @@ function Setting() {
 
         }
         getUser();
-    },[])
+    },[render])
 
     const handleAlter=async(id)=>{
         try{
@@ -58,6 +60,7 @@ function Setting() {
             if(dt.data.status==="success")
             {
                 DisplaySnackbar("Updated Successfully","success");
+                setRender(!render);
             }
         }
         catch(err)
@@ -78,6 +81,7 @@ function Setting() {
             if(dt.data.status==="success")
             {
                 DisplaySnackbar("Deleted Successfully","success");
+                setRender(!render);
             }
         }
         catch(err)
@@ -87,10 +91,30 @@ function Setting() {
 
 
     }
+    useEffect(()=>{
+        if(val!=="")
+        {
+            let temp=[];
+            filterUser?.forEach(item=>{
+                if(item.name.toLowerCase().includes(val))
+                {
+                    temp.push(item);
+                }
+            });
+            setAlluser(temp);
+        }
+        else
+        {
+            setAlluser([...filterUser]);
+
+        }
+
+    },[val])
+    console.log(filterUser);
     
   return (
     <>
-    <Header/>
+    <Header text="" val={val} setVal={setVal}/>
     <HistoryHeader style={{display:"flex",justifyContent:"space-between"}}>
         <h2>Settings</h2>
         <div>
@@ -129,7 +153,7 @@ function Setting() {
         })
     }
     
-    {modal&&<GetType setModal={setModal} type={type}/>}
+    {modal&&<GetType render={render} setRender={setRender} setModal={setModal} type={type}/>}
 
     </HistoryContainer>
     </>

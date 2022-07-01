@@ -42,6 +42,7 @@ function Login() {
         localStorage.setItem("name",dt.data.data.name)
         localStorage.setItem("isAdmin",dt.data.data.isAdmin);
         localStorage.setItem("companyId",dt.data.data.companyId);
+        localStorage.setItem("profilePic",dt.data.data.profilePic);
         setLogedIn(true)
         setTimeout(()=>navigation('/'),5000);
     }

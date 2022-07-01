@@ -18,6 +18,7 @@ import { Project } from "../../Api/Api";
 
 export const ProjectDetails = (props) => {
   const { setType, setModal, formData, setFormData, members } = props;
+  console.log(formData.startDate);
   const { DisplaySnackbar } = useAuth();
   const handleOnChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -128,7 +129,9 @@ export const ProjectDetails = (props) => {
 };
 
 function AddProject(props) {
-  const { setModal } = props;
+  const { setModal,edit,data,render ,setRender } = props;
+  console.log(render);
+  
   const {DisplaySnackbar}=useAuth();
   const [type, setType] = React.useState("");
   const [stages, setStages] = React.useState([]);
@@ -140,18 +143,87 @@ function AddProject(props) {
     description: "",
     startDate: "",
     endData: "",
-
+    category:"",
     companyId: "",
   });
+  useEffect(()=>{
+    const getData=async()=>{
+      console.log("rahul");
+      if(edit)
+    {
+      console.log("hello do edit");
+      try{
+      const dt=await axios.get(Project.getSingleProject(data),{
+        headers:{
+         token: localStorage.getItem('token')
+        }
+
+      })
+      const dta=dt?.data?.data;
+      setFormData({
+        title:dta?.title,
+        description:dta?.description,
+        startDate:dta?.startDate.split('T')[0],
+        endDate:dta?.endDate.split('T')[0],
+        category:dta?.category,
+        project_id:dta?._id
+      })
+      setStages(dta?.stages.map((item)=>{
+        return{
+          stage_id:item?._id,
+          title:item?.title,
+          description:item?.description,
+          startDate:item?.startDate.split('T')[0],
+          endDate:item?.endDate.split('T')[0],
+          weight:item?.weight
+        }
+      }))
+      setMembers([...dta?.members]);
+      setMembersId(dta.members.map((item)=>item._id));
+      }
+      catch(err)
+      {
+        console.log(err);
+
+      }
+    }
+  }
+    getData();
+  },[edit])
 
   const CreateProject=async()=>{
-    console.log("Rajjj");
+    
     if(!stages.length)
     {
       DisplaySnackbar("Project must have atleast one stage","error");
       return;
     }
     try{
+      if(edit)
+      {
+        const data={
+          ...formData,
+            members:[...membersId],
+            companyId:localStorage.getItem("companyId"),
+          stages
+        }
+        const dt=await axios.patch(Project.updateProject(formData.project_id),data,{
+          headers:{
+            token:localStorage.getItem('token')
+          }
+        })
+        console.log(dt);
+        if(dt?.data?.status==="success")
+        {
+          setModal(false);
+          setRender(!render);
+         setTimeout(()=>DisplaySnackbar("Updated Successfully","success"),1000);
+        
+         
+        }
+      }
+      else
+      {
       const data={
         ...formData,
           members:[...membersId],
@@ -164,7 +236,13 @@ function AddProject(props) {
         }
       })
       setModal(false);
+      setRender(!render);
+     
       setTimeout(()=>DisplaySnackbar("Project created","success"),1000);
+      
+     
+     
+    }
       
 
     }
@@ -210,7 +288,7 @@ function AddProject(props) {
             setType={setType}
           />
         ) : type === "Stages" ? (
-          <AddStages CreateProject={CreateProject} stages={stages} setStages={setStages} setType={setType} />
+          <AddStages CreateProject={CreateProject} setModal={setModal} stages={stages} setStages={setStages} isEdit={edit} setType={setType} />
         ) : (
           <AddMembers
             membersId={membersId}
@@ -227,4 +305,7 @@ function AddProject(props) {
   );
 }
 
+AddProject.defaultProps={
+  edit:false
+}
 export default AddProject;

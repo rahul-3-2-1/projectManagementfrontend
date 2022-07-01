@@ -14,9 +14,9 @@ function Routing() {
     
         <Route path='/' element={<Dashboard/>}/>
         <Route path='/project/:id' element={<SingleProject/>}/>
-        <Route path='/users' element={<Users/>}/>
+       {localStorage.getItem("isAdmin")==="true"&& <Route path='/users' element={<Users/>}/>}
         <Route path='/request_history' element={<History/>}/>
-        <Route path='/setting' element={<Setting/>}/>
+        {localStorage.getItem("isAdmin")==="true"&&<Route path='/setting' element={<Setting/>}/>}
         <Route path='/login' element={<Login/>}/>
     </Routes>
   )

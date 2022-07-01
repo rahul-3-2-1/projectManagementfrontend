@@ -147,9 +147,10 @@ export const RenderStages = (props) => {
 };
 
 function AddStages(props) {
-  const { setModal, setType, setStages, stages ,CreateProject,} = props;
+  const { setModal, setType, setStages, stages ,CreateProject,isEdit} = props;
   // const [stages,setStages]=React.useState([]);
   const [edit, setEdit] = useState(false);
+  console.log(isEdit);
   const [id, setId] = useState("");
   const [stage, setStage] = useState({
     title: "",
@@ -167,6 +168,7 @@ function AddStages(props) {
   const handleDelete = (id) => {
     setStages(stages.filter((item, idx) => idx !== id));
   };
+  
   return (
     <>
       <div className="fDiv">
@@ -206,7 +208,7 @@ function AddStages(props) {
           Cancel
         </Button>
         <Button onClick={()=>CreateProject()} color="#045680" border="#045680" textColor="#fff">
-          Create Project
+         {isEdit?"Update Project":"Create Project"} 
         </Button>
       </ButtonGroup>
     </>

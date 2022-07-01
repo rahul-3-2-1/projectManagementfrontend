@@ -14,7 +14,7 @@ import { User } from "../../Api/Api";
 import * as XLSX from "xlsx";
 
 function UploadUser(props) {
-  const { setModal } = props;
+  const { setModal,render,setRender } = props;
   const { DisplaySnackbar } = useAuth();
   const [file, setFile] = React.useState();
   const uploadCSV = (e) => {
@@ -95,7 +95,9 @@ function UploadUser(props) {
 
                 return;
               } else {
-                DisplaySnackbar("user Uploaded", "success");
+                setTimeout(()=>{ DisplaySnackbar("user Uploaded", "success")},1000);
+                setRender(!render);
+                setModal(false);
               }
             })
             .catch((err) => {
@@ -158,7 +160,12 @@ function UploadUser(props) {
 
                 return;
               } else {
-                DisplaySnackbar("user Uploaded", "success");
+
+                setTimeout(()=>{ DisplaySnackbar("user Uploaded", "success")},1000);
+                setRender(!render);
+                setModal(false);
+               
+                
               }
             })
             .catch((err) => {

@@ -84,3 +84,31 @@ color:#797878;
 export const IconContainer=styled.div`
 display:flex;
 `
+
+export const ProfileWidth=styled.div`
+min-width:250px;
+padding:20px 5px;
+background:#fff;
+display:flex;
+flex-direction:column;
+align-items:center;
+box-shadow:1px 2px 3px #ccc;
+position:absolute;
+top:100%;
+right:0;
+z-index:10000;
+`
+
+export const Options=styled.div`
+
+margin: 10px 0px;
+    color: cadetblue;
+    font-weight: 500;
+    cursor:pointer;
+    &:hover{
+        text-decoration:underline;
+        transition:0.3s;
+    }
+
+
+`

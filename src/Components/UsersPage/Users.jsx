@@ -54,6 +54,7 @@ function Users() {
   const [allUsers,setAllusers]=useState([]);
   const [allProjects,setAllProjects]=useState([]);
   const [filterProjects,setFilterProjects]=useState([]);
+  const [val,setVal]=useState("")
   const [selected,setSeleted]=useState("");
   const filterByUser=(id)=>{
     setSeleted(id);
@@ -98,12 +99,28 @@ function Users() {
     projects();
     Users();
   },[])
+  useEffect(()=>{
+    if(val!=="")
+    {
+      let tmp=[];
+      filterProjects.forEach((item)=>{
+        if(item.title.toLowerCase().includes(val))
+        {
+          tmp.push(item);
+        }
+      })
+      setAllProjects(()=>[...tmp])
+    }
+    else
+    {
+      setAllProjects([...filterProjects]);
+    }
 
-  console.log(selected);
-  console.log(filterProjects);
+  },[val])
+  
   return (
       <>
-      <HeaderData search={false}/>
+      <HeaderData val={val} setVal={setVal} text="Projects" />
       <UsersProjectContainer>
     <UserList filterByUser={filterByUser} selected={selected} allUser={allUsers}/>
     <ProjectList allProjects={allProjects}/>

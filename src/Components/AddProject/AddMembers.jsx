@@ -26,6 +26,8 @@ function AddMembers(props) {
   const { setType,setMembers,members, setModal,allUsers ,membersId,setMembersId} = props;
   const [users,setUsers]=useState([]);
   const [val,setVal]=useState("");
+  console.log(members);
+  console.log(membersId);
   
   useEffect(()=>{
     

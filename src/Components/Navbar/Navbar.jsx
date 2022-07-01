@@ -22,21 +22,23 @@ function Navbar() {
             <HomeOutlinedIcon  className='icon' style={{height:"30px",width:"30px"}}/>
         </IconContainer>
         </NavLink>
+        {localStorage.getItem("isAdmin")==="true"&&
         <NavLink activeClassName="active" className="link" to='/users'>
         <IconContainer  className='wrapper' animation>
             <PersonOutlineIcon  className='icon' style={{height:"30px",width:"30px"}}/>
         </IconContainer>
-        </NavLink>
+        </NavLink>}
         <NavLink activeClassName="active" className="link" to='/request_history'>
         <IconContainer className='wrapper' animation>
             <HistoryIcon  className='icon' style={{height:"30px",width:"30px"}}/>
         </IconContainer>
         </NavLink>
+        {localStorage.getItem("isAdmin")==="true"&&
         <NavLink activeClassName="active" className="link" to='/setting'>
         <IconContainer className='wrapper' animation>
             <SettingsOutlinedIcon  className='icon' style={{height:"30px",width:"30px"}}/>
         </IconContainer>
-        </NavLink>
+        </NavLink>}
         
     </NavbarContainer>
   )
