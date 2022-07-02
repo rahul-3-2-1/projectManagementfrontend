@@ -29,7 +29,8 @@ function RegisterCompany({setLogin}) {
             name,
             email,
             password,
-            isAdmin:true
+            isAdmin:true,
+            role:role
 
         })
 
@@ -105,13 +106,13 @@ function RegisterCompany({setLogin}) {
              <LoginFormLabel>
                  Password
              </LoginFormLabel>
-             <LoginFormInput name="password" value={formData.password} onChange={handleOnChange}/>
+             <LoginFormInput name="password" type="password" value={formData.password} onChange={handleOnChange}/>
              </div>
              <div className='cont'>
              <LoginFormLabel>
                  Confirm Password
              </LoginFormLabel>
-             <LoginFormInput name="cPassword" value={formData.cPassword} onChange={handleOnChange}/>
+             <LoginFormInput name="cPassword" type="password" value={formData.cPassword} onChange={handleOnChange}/>
              </div>
              <p className='bl'>Already have an account ? <span onClick={()=>setLogin(true)}>Click here</span></p>
              <div style={{textAlign:"center"}}>
